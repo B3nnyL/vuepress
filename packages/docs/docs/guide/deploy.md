@@ -189,30 +189,23 @@ heroku open
 
     ```json
     {
-      "name": "my-cool-docs",
-      "type": "static",
-      "static": {
-        "public": "docs/.vuepress/dist"
-      },
-      "alias": "my-cool-docs",
-      "files": [
-        "docs/.vuepress/dist"
-      ]
+    "version": 2,
+    "name": "vuepress",
+    "alias": "my-cool-vuepress.now.sh",
+      "builds": [{
+        "src": "package.json",
+        "use": "@now/static-build"
+      }]
     }
     ```
 
-    You can further customize the static serving behavior by consulting [Now's documentation](https://zeit.co/docs/deployment-types/static).
+    You can further customize the static serving behavior by consulting [Now's Vuepress Example](https://zeit.co/examples/vuepress/).
 
-3. Adding a deployment script in `package.json`:
-
-    ```json
-    "docs:deploy": "npm run docs:build && now --local-config docs.now.json && now alias --local-config docs.now.json"
-    ```
-
-    If you want to deploy publicly by default, you can change the deployment script to the following one:
+3. Adding a deployment and now building script in `package.json`:
 
     ```json
-    "docs:deploy": "npm run docs:build && now --public --local-config docs.now.json && now alias --local-config docs.now.json"
+    "docs:deploy": "now && now alias"
+    "now-build": "npm run docs:build && mv docs/.vuepress/dist dist"
     ```
 
     This will automatically point your site's alias to the latest deployment. Now, just run `npm run docs:deploy` to deploy your app.
